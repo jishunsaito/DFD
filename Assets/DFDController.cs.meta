@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bd15505d3930b7e498756e5f667ba4ff
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - colorTexture: {instanceID: 0}
+  - depthTexture: {instanceID: 0}
+  - frontMaterial: {instanceID: 0}
+  - backMaterial: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

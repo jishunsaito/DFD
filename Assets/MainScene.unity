@@ -324,6 +324,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &165836400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 165836402}
+  - component: {fileID: 165836401}
+  m_Layer: 0
+  m_Name: DFDController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &165836401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165836400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd15505d3930b7e498756e5f667ba4ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DFDController
+  colorTexture: {fileID: 0}
+  depthTexture: {fileID: 0}
+  frontMaterial: {fileID: 2100000, guid: 4b6bff4247341374292fbe9b1d9d6903, type: 2}
+  backMaterial: {fileID: 2100000, guid: b6162df820e0bbe4e9d0ef95167617cd, type: 2}
+  viewerPositionMm: {x: 0, y: 0, z: 800}
+  backDisplayCenterMm: {x: 0, y: 0, z: 0}
+  backResolution: {x: 3840, y: 2160}
+  backPixelPitchMm: {x: 0.1845, y: 0.1845}
+  frontDisplayCenterMm: {x: 0, y: 0, z: 50}
+  frontResolution: {x: 3840, y: 2160}
+  frontPixelPitchMm: {x: 0.1845, y: 0.1845}
+  referencePlaneMode: 0
+  customReferenceCenterMm: {x: 0, y: 0, z: 0}
+  customReferenceSizeMm: {x: 708, y: 396}
+  depthNearIsWhite: 1
+  depthMin: 0
+  depthMax: 1
+  depthGamma: 1
+  normalizeWeights: 1
+  brightness: 1
+  flipY: 0
+  outsideColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!4 &165836402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165836400}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.4405, y: 0, z: -0.17601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &677258520
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +456,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b6162df820e0bbe4e9d0ef95167617cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -728,3 +794,4 @@ SceneRoots:
   - {fileID: 9760518}
   - {fileID: 89621396}
   - {fileID: 923766478}
+  - {fileID: 165836402}

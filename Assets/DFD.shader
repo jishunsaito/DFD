@@ -23,33 +23,26 @@ Shader "Unlit/DFD"
         Tags
         {
             "RenderType"="Opaque"
-            "RenderPipeline"="UniversalPipeline"
             "Queue"="Geometry"
         }
 
         Pass
         {
             Name "DFDDepthLayerPixelPitch"
-            Tags { "LightMode"="UniversalForward" }
 
             Cull Off
             ZWrite Off
             ZTest Always
 
-            HLSLPROGRAM
+            CGPROGRAM
 
             #pragma vertex vert
             #pragma fragment frag
 
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "UnityCG.cginc"
 
-            TEXTURE2D(_MainTex);
-            SAMPLER(sampler_MainTex);
-
-            TEXTURE2D(_DepthTex);
-            SAMPLER(sampler_DepthTex);
-
-            CBUFFER_START(UnityPerMaterial)
+            sampler2D _MainTex;
+            sampler2D _DepthTex;
 
             float _LayerIndex;
 
@@ -75,24 +68,22 @@ Shader "Unlit/DFD"
             float _BackDisplayZMm;
             float _FrontDisplayZMm;
 
-            CBUFFER_END
-
-            struct Attributes
+            struct appdata
             {
-                float4 positionOS : POSITION;
-                float2 uv         : TEXCOORD0;
+                float4 vertex : POSITION;
+                float2 uv     : TEXCOORD0;
             };
 
-            struct Varyings
+            struct v2f
             {
-                float4 positionHCS : SV_POSITION;
-                float2 uv          : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+                float2 uv     : TEXCOORD0;
             };
 
-            Varyings vert(Attributes input)
+            v2f vert(appdata input)
             {
-                Varyings output;
-                output.positionHCS = TransformObjectToHClip(input.positionOS.xyz);
+                v2f output;
+                output.vertex = UnityObjectToClipPos(input.vertex);
                 output.uv = input.uv;
                 return output;
             }
@@ -127,8 +118,6 @@ Shader "Unlit/DFD"
             {
                 float3 rayDir = normalize(displayPointMm - _ViewerPosMm);
 
-                // 全ディスプレイ面と参照面はXY平面に平行とする．
-                // 参照面は z = _ReferenceCenterMm.z
                 float denom = rayDir.z;
 
                 if (abs(denom) < 1e-6)
@@ -161,7 +150,6 @@ Shader "Unlit/DFD"
                 float range = max(_DepthMax - _DepthMin, 1e-6);
                 float depth01 = saturate((depthRaw - _DepthMin) / range);
 
-                // near01 = 1 が手前，0 が奥
                 float near01 = (_DepthNearIsWhite > 0.5)
                     ? depth01
                     : 1.0 - depth01;
@@ -171,8 +159,6 @@ Shader "Unlit/DFD"
 
             float2 GetDFDWeights(float near01)
             {
-                // near01 = 1 : front display
-                // near01 = 0 : back display
                 float frontWeight = near01;
                 float backWeight = 1.0 - near01;
 
@@ -189,7 +175,7 @@ Shader "Unlit/DFD"
                 return float2(frontWeight, backWeight);
             }
 
-            half4 frag(Varyings input) : SV_Target
+            fixed4 frag(v2f input) : SV_Target
             {
                 float2 displayUV = ApplyFlipY(input.uv);
 
@@ -201,11 +187,11 @@ Shader "Unlit/DFD"
                     sourceUV.y < 0.0 || sourceUV.y > 1.0
                 )
                 {
-                    return half4(_OutsideColor.rgb, 1.0);
+                    return fixed4(_OutsideColor.rgb, 1.0);
                 }
 
-                float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, sourceUV);
-                float depthRaw = SAMPLE_TEXTURE2D(_DepthTex, sampler_DepthTex, sourceUV).r;
+                fixed4 color = tex2D(_MainTex, sourceUV);
+                float depthRaw = tex2D(_DepthTex, sourceUV).r;
 
                 float near01 = GetNear01(depthRaw);
                 float2 weights = GetDFDWeights(near01);
@@ -216,10 +202,12 @@ Shader "Unlit/DFD"
 
                 float3 outColor = color.rgb * weight * _Brightness;
 
-                return half4(outColor, color.a);
+                return fixed4(outColor, color.a);
             }
 
-            ENDHLSL
+            ENDCG
         }
     }
+
+    FallBack Off
 }

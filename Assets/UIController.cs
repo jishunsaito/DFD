@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class DFDUIController : MonoBehaviour
 {
     [Header("Target")]
     public DFDController dfdController;
 
     [Header("UI Root")]
+    [Tooltip("Canvas か，ViewerZ / Space / Gamma / Y をまとめている親オブジェクトを入れる")]
     public GameObject uiRoot;
 
     [Header("Viewer Z [mm]")]
@@ -17,7 +18,6 @@ public class UIController : MonoBehaviour
     public TMP_InputField viewerZInput;
 
     private float viewerZMin = 0f;
-
     private float viewerZMax = 2000f;
 
     [Header("Display Space [mm]")]
@@ -25,18 +25,23 @@ public class UIController : MonoBehaviour
     public TMP_InputField spaceInput;
 
     private float spaceMin = 0f;
-
-    private float spaceMax = 1000f;
+    private float spaceMax = 200f;
 
     [Header("Depth Gamma")]
     public Slider gammaSlider;
     public TMP_InputField gammaInput;
 
-
     private float gammaMin = 0.1f;
-
-
     private float gammaMax = 5f;
+
+    [Header("Front Display Y [mm]")]
+    [Tooltip("前面ディスプレイ中心のY座標．後面ディスプレイ中心を0 mmとする")]
+    public Slider ySlider;
+    public TMP_InputField yInput;
+
+    private float yMin = -1000f;
+    private float yMax = 1000f;
+
 
     private int decimalPlaces = 1;
 
@@ -76,6 +81,12 @@ public class UIController : MonoBehaviour
             gammaSlider.minValue = gammaMin;
             gammaSlider.maxValue = gammaMax;
         }
+
+        if (ySlider != null)
+        {
+            ySlider.minValue = yMin;
+            ySlider.maxValue = yMax;
+        }
     }
 
     private void RegisterEvents()
@@ -95,6 +106,11 @@ public class UIController : MonoBehaviour
             gammaSlider.onValueChanged.AddListener(OnGammaSliderChanged);
         }
 
+        if (ySlider != null)
+        {
+            ySlider.onValueChanged.AddListener(OnYSliderChanged);
+        }
+
         if (viewerZInput != null)
         {
             viewerZInput.onEndEdit.AddListener(OnViewerZInputEndEdit);
@@ -109,6 +125,11 @@ public class UIController : MonoBehaviour
         {
             gammaInput.onEndEdit.AddListener(OnGammaInputEndEdit);
         }
+
+        if (yInput != null)
+        {
+            yInput.onEndEdit.AddListener(OnYInputEndEdit);
+        }
     }
 
     private void PullValuesFromDFDController()
@@ -121,10 +142,12 @@ public class UIController : MonoBehaviour
         float viewerZ = dfdController.viewerPositionMm.z;
         float space = dfdController.frontDisplayCenterMm.z - dfdController.backDisplayCenterMm.z;
         float gamma = dfdController.depthGamma;
+        float y = dfdController.viewerPositionMm.y;
 
         SetViewerZ(viewerZ);
         SetSpace(space);
         SetGamma(gamma);
+        SetY(y);
     }
 
     private void HandleToggleUI()
@@ -192,6 +215,16 @@ public class UIController : MonoBehaviour
         SetGamma(value);
     }
 
+    private void OnYSliderChanged(float value)
+    {
+        if (isSyncing)
+        {
+            return;
+        }
+
+        SetY(value);
+    }
+
     private void OnViewerZInputEndEdit(string text)
     {
         if (TryParseFloat(text, out float value))
@@ -228,6 +261,18 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private void OnYInputEndEdit(string text)
+    {
+        if (TryParseFloat(text, out float value))
+        {
+            SetY(value);
+        }
+        else
+        {
+            RefreshYUI();
+        }
+    }
+
     private void SetViewerZ(float value)
     {
         if (dfdController == null)
@@ -255,7 +300,7 @@ public class UIController : MonoBehaviour
 
         Vector3 front = dfdController.frontDisplayCenterMm;
 
-        // back display の z を基準に，front display を手前側へ配置
+        // 後面ディスプレイのzを基準に，前面ディスプレイを手前側へ配置
         front.z = dfdController.backDisplayCenterMm.z + value;
 
         dfdController.frontDisplayCenterMm = front;
@@ -275,6 +320,25 @@ public class UIController : MonoBehaviour
         dfdController.depthGamma = value;
 
         SyncGammaUI(value);
+    }
+
+    private void SetY(float value)
+    {
+        if (dfdController == null)
+        {
+            return;
+        }
+
+        value = Mathf.Clamp(value, yMin, yMax);
+
+        Vector3 front = dfdController.frontDisplayCenterMm;
+
+        // 後面ディスプレイ中心を y = 0 としたときの，前面ディスプレイ中心の高さ
+        front.y = value;
+
+        dfdController.frontDisplayCenterMm = front;
+
+        SyncYUI(value);
     }
 
     private void RefreshViewerZUI()
@@ -306,6 +370,16 @@ public class UIController : MonoBehaviour
         }
 
         SyncGammaUI(dfdController.depthGamma);
+    }
+
+    private void RefreshYUI()
+    {
+        if (dfdController == null)
+        {
+            return;
+        }
+
+        SyncYUI(dfdController.frontDisplayCenterMm.y);
     }
 
     private void SyncViewerZUI(float value)
@@ -359,11 +433,27 @@ public class UIController : MonoBehaviour
         isSyncing = false;
     }
 
+    private void SyncYUI(float value)
+    {
+        isSyncing = true;
+
+        if (ySlider != null)
+        {
+            ySlider.SetValueWithoutNotify(value);
+        }
+
+        if (yInput != null)
+        {
+            yInput.SetTextWithoutNotify(FormatFloat(value));
+        }
+
+        isSyncing = false;
+    }
+
     private bool TryParseFloat(string text, out float value)
     {
         text = text.Trim();
 
-        // 日本語環境でも "." 小数入力を安定して通す
         return float.TryParse(
             text,
             NumberStyles.Float,

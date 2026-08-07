@@ -582,8 +582,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd15505d3930b7e498756e5f667ba4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DFDController
-  colorTexture: {fileID: 2800000, guid: bce288afdf759514c89004e1fb7621e1, type: 3}
-  depthTexture: {fileID: 2800000, guid: f412a1d7669c2bb4595547a47e895f6c, type: 3}
+  colorTexture: {fileID: 2800000, guid: 06599c56e7464634cabc0f9ab6aeae79, type: 3}
+  depthTexture: {fileID: 2800000, guid: cc63a459a5d260c46944eef2cc70e223, type: 3}
   frontMaterial: {fileID: 2100000, guid: 4b6bff4247341374292fbe9b1d9d6903, type: 2}
   backMaterial: {fileID: 2100000, guid: b6162df820e0bbe4e9d0ef95167617cd, type: 2}
   viewerPositionMm: {x: 0, y: 0, z: 500}

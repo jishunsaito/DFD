@@ -10,7 +10,7 @@ public class DFDUIController : MonoBehaviour
     public DFDController dfdController;
 
     [Header("UI Root")]
-    [Tooltip("Canvas ‚©CViewerZ / Space / Gamma / Y ‚ğ‚Ü‚Æ‚ß‚Ä‚¢‚éeƒIƒuƒWƒFƒNƒg‚ğ“ü‚ê‚é")]
+    [Tooltip("Canvas ï¿½ï¿½ï¿½CViewerZ / Space / Gamma / Y ï¿½ï¿½ï¿½Ü‚Æ‚ß‚Ä‚ï¿½ï¿½ï¿½eï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public GameObject uiRoot;
 
     [Header("Viewer Z [mm]")]
@@ -18,14 +18,14 @@ public class DFDUIController : MonoBehaviour
     public TMP_InputField viewerZInput;
 
     private float viewerZMin = 0f;
-    private float viewerZMax = 2000f;
+    private float viewerZMax = 10000f;
 
     [Header("Display Space [mm]")]
     public Slider spaceSlider;
     public TMP_InputField spaceInput;
 
     private float spaceMin = 0f;
-    private float spaceMax = 200f;
+    private float spaceMax = 2000f;
 
     [Header("Depth Gamma")]
     public Slider gammaSlider;
@@ -35,7 +35,7 @@ public class DFDUIController : MonoBehaviour
     private float gammaMax = 5f;
 
     [Header("Front Display Y [mm]")]
-    [Tooltip("‘O–ÊƒfƒBƒXƒvƒŒƒC’†S‚ÌYÀ•WDŒã–ÊƒfƒBƒXƒvƒŒƒC’†S‚ğ0 mm‚Æ‚·‚é")]
+    [Tooltip("ï¿½Oï¿½Êƒfï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Sï¿½ï¿½Yï¿½ï¿½ï¿½Wï¿½Dï¿½ï¿½Êƒfï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Sï¿½ï¿½0 mmï¿½Æ‚ï¿½ï¿½ï¿½")]
     public Slider ySlider;
     public TMP_InputField yInput;
 
@@ -300,7 +300,7 @@ public class DFDUIController : MonoBehaviour
 
         Vector3 front = dfdController.frontDisplayCenterMm;
 
-        // Œã–ÊƒfƒBƒXƒvƒŒƒC‚Ìz‚ğŠî€‚ÉC‘O–ÊƒfƒBƒXƒvƒŒƒC‚ğè‘O‘¤‚Ö”z’u
+        // ï¿½ï¿½Êƒfï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½zï¿½ï¿½ï¿½î€ï¿½ÉCï¿½Oï¿½Êƒfï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ö”zï¿½u
         front.z = dfdController.backDisplayCenterMm.z + value;
 
         dfdController.frontDisplayCenterMm = front;
@@ -333,7 +333,7 @@ public class DFDUIController : MonoBehaviour
 
         Vector3 front = dfdController.frontDisplayCenterMm;
 
-        // Œã–ÊƒfƒBƒXƒvƒŒƒC’†S‚ğ y = 0 ‚Æ‚µ‚½‚Æ‚«‚ÌC‘O–ÊƒfƒBƒXƒvƒŒƒC’†S‚Ì‚‚³
+        // ï¿½ï¿½Êƒfï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Sï¿½ï¿½ y = 0 ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÌCï¿½Oï¿½Êƒfï¿½Bï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Sï¿½Ìï¿½ï¿½ï¿½
         front.y = value;
 
         dfdController.frontDisplayCenterMm = front;

@@ -65,9 +65,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BackEdgeExpandPx: 1
+    - _BackEdgeExpandStrength: 0.65
+    - _BackOcclusionFeather: 0.08
+    - _BackOcclusionThreshold: 0.6
+    - _BackgroundFeather: 0.035
+    - _BackgroundThreshold: 0.08
     - _Brightness: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DepthBilateralSigma: 0.08
+    - _DepthBlurRadiusPx: 1
+    - _DepthEdgeSigma: 0.12
     - _DepthGamma: 1
     - _DepthMax: 1
     - _DepthMin: 0
@@ -81,6 +90,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _InvertDepth: 0
+    - _KillBackNearPixels: 1
     - _Layer: 0
     - _LayerIndex: 0
     - _Metallic: 0

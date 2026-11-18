@@ -496,8 +496,8 @@ Camera:
   m_GameObject: {fileID: 89621393}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -601,6 +601,15 @@ MonoBehaviour:
   depthMax: 1
   depthGamma: 1
   normalizeWeights: 1
+  backgroundThreshold: 0.08
+  backgroundFeather: 0.035
+  depthBlurRadiusPx: 1
+  depthBilateralSigma: 0.08
+  backOcclusionThreshold: 0.6
+  backOcclusionFeather: 0.08
+  killBackNearPixels: 1
+  backEdgeExpandPx: 1
+  backEdgeExpandStrength: 0.65
   brightness: 1
   flipY: 0
   outsideColor: {r: 0, g: 0, b: 0, a: 1}
@@ -2802,8 +2811,8 @@ Camera:
   m_GameObject: {fileID: 923766475}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
